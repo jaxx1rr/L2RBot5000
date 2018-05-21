@@ -6987,7 +6987,7 @@ public class L2RBot {
 					break;
 				}
 				//check if in party
-				if (ctrparty==10) {
+				if (ctrparty==60) {
 					leftparty = exitBadParty();
 
 					if (running && (leftparty || bbs.exists(DUNGEON_PARTY_SEARCH.similar(ACCURACY)) != null)) {
