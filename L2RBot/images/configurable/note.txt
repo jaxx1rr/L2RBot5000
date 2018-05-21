@@ -1,0 +1,3 @@
+-before replacing images please make backups.
+-take new images from 1920x1080 fullscreen mode.
+(originals were taken from 1920x1200 windowed bluestacks)
