@@ -88,6 +88,8 @@ public class L2RBot {
 	private static Pattern MQ_SPOT_REVIVAL;
 	private static Pattern MQ_WALK_TOWARDS;
 	private static Pattern MQ_QUEST_ARROWS;
+	private static Pattern MQ_QUEST_SKIP;
+	private static Pattern MQ_BOX_USE;
 	private static Pattern MQ_CONTINUE;
 	private static Pattern MQ_LOCKED;
 	private static Pattern MQ_LOCKED2;
@@ -365,6 +367,8 @@ public class L2RBot {
 	private static final String STR_MQ_SPOT_REVIVAL = "mq_spot_revival.png";
 	private static final String STR_MQ_WALK_TOWARDS = "mq_walk_towards.png";
 	private static final String STR_MQ_QUEST_ARROWS = "mq_quest_arrows.png";
+	private static final String STR_MQ_QUEST_SKIP = "mq_quest_skip.png";
+	private static final String STR_MQ_BOX_USE = "mq_box_use.png";
 	private static final String STR_MQ_CONTINUE = "mq_continue.png";
 	private static final String STR_MQ_LOCKED = "mq_locked.png";
 	private static final String STR_MQ_LOCKED2 = "mq_locked2.png";
@@ -3281,6 +3285,8 @@ public class L2RBot {
 		MQ_SPOT_REVIVAL = scaledImageLocal(STR_MQ_SPOT_REVIVAL);
 		MQ_WALK_TOWARDS = scaledImageLocal(STR_MQ_WALK_TOWARDS);
 		MQ_QUEST_ARROWS = scaledImageLocal(STR_MQ_QUEST_ARROWS);
+		MQ_QUEST_SKIP = scaledImageLocal(STR_MQ_QUEST_SKIP);
+		MQ_BOX_USE = scaledImageLocal(STR_MQ_BOX_USE);
 		MQ_CONTINUE = scaledImageLocal(STR_MQ_CONTINUE);
 		MQ_LOCKED = scaledImageLocal(STR_MQ_LOCKED);
 		MQ_LOCKED2 = scaledImageLocal(STR_MQ_LOCKED);
@@ -5226,6 +5232,10 @@ public class L2RBot {
 			int deathcount = 0;
 			while (running) { // loop this event
 				
+				if (running && bbs.exists(MQ_BOX_USE.similar(ACCURACY)) != null) {
+					if (running) lfac("MQ_BOX_USE", MQ_BOX_USE, DEFDELAY, false, ACCURACY);
+				}
+				
 				if (running && bbs.exists(MQ_CLAIM_REWARD.similar(ACCURACY)) != null) {
 					if (running) lfac("MQ_CLAIM_REWARD", MQ_CLAIM_REWARD, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(2000);
@@ -5259,7 +5269,7 @@ public class L2RBot {
 				if (running && bbs.exists(MQ_WALK_TOWARDS.similar(ACCURACY)) != null) {
 					if (running) lfac("MQ_WALK_TOWARDS", MQ_WALK_TOWARDS, 1, false, ACCURACY);
 				}					
-				if (running && bbs.exists(MQ_QUEST_ARROWS) != null) {
+				if (running && (bbs.exists(MQ_QUEST_ARROWS) != null || bbs.exists(MQ_QUEST_SKIP) != null)) {
 					if (running) goClick(1820, 820); //skip
 					if (running) Sleep(2000);
 					if (bbs.exists(MQ_LOCKED) != null) {
@@ -5326,7 +5336,6 @@ public class L2RBot {
 
 	public static void subquestsMode(){
 
-		log("--- Subquest Mode Q:1");
 		start();
 		done_sq = false;
 		
@@ -5335,7 +5344,7 @@ public class L2RBot {
 			exitMenues();
 
 			if (running && bbs.exists(SUBQ_AVAIL.similar(ACCURACY)) != null) {
-				
+				log("--- Subquest Mode Q:1");
 			} else
 			if (running && bbs.exists(SUBQ_RESET) != null) {
 
@@ -5377,7 +5386,7 @@ public class L2RBot {
 					log("--- Subquest Mode Q:"+(counter+1));
 				}
 			
-				if (running && bbs.exists(MQ_QUEST_ARROWS) != null) {
+				if (running && (bbs.exists(MQ_QUEST_ARROWS) != null || bbs.exists(MQ_QUEST_SKIP) != null)) {
 					if (running) goClick(1820, 820); //skipquest
 					if (running) Sleep(2000);
 				}
@@ -5938,7 +5947,7 @@ public class L2RBot {
 					if (running) goClick(BTN_MAP_X, BTN_MAP_Y); //map
 					if (running) Sleep(3000);
 					if (running && deaths == 1) goClick(Integer.parseInt(coordHerbs2X.getText()), Integer.parseInt(coordHerbs2Y.getText())); //go here to gather because area 1 is hostile
-					if (running && deaths == 2) goClick(Integer.parseInt(coordHerbs3X.getText()), Integer.parseInt(coordHerbs3Y.getText())); //go here to gather because area 1 is hostile
+					if (running && deaths == 2) goClick(Integer.parseInt(coordHerbs3X.getText()), Integer.parseInt(coordHerbs3Y.getText())); //go here to gather because area 2 is hostile
 					if (running && deaths == 3) {
 						if (running) log("> PK 3 times.. too crowded..");
 						notdone = false;
@@ -6076,7 +6085,7 @@ public class L2RBot {
 
 			for (int i=0;i<2;i++) { //run two times
 				if (running) lfac("DA_TRIALS_AC", DA_TRIALS_AC, DEFDELAY, false, ACCURACY);
-				if (running) Sleep(2000);
+				if (running) Sleep(3000);
 				boolean failedt = false;
 				if (running && bbs.exists(DA_TRIALS_AC_GO.similar(ACC_HIGH)) != null) {
 					if (running) lfac("DA_TRIALS_AC_GO", DA_TRIALS_AC_GO, DEFDELAY, false, ACCURACY);
