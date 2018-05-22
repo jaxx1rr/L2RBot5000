@@ -1163,6 +1163,8 @@ public class L2RBot {
 	private static int BTN_POTIONS_Y = 600;
 	private static int GATHERPOTIONX = 1500;
 	private static int GATHERPOTIONY = 120;
+	private static int GATHERBTNX = 1036;
+	private static int GATHERBTNY = 438;
 	private static int BTN_AUTO_X = 1400;
 	private static int BTN_AUTO_Y = 950;
 	private static int BTN_CH_MERCHANT_X = 1470; 
@@ -1863,7 +1865,7 @@ public class L2RBot {
 		panel3.add(btnmap_h3, gc3);
 		btnmap_h3.addActionListener(new ActionMapH3());
 		
-		gc3.gridwidth = 3;
+		gc3.gridwidth = 4;
 		gc3.gridx = currentCol+9;
 		gc3.gridy = currentRow-6;
 		JLabel label_sleep = new JLabel("PAUSE MODIFIER (SHOULD BE 1.0):");
@@ -1871,7 +1873,7 @@ public class L2RBot {
 		label_sleep.setBorder(b2);
 		panel3.add(label_sleep, gc3);
 		gc3.gridwidth = 1;
-		gc3.gridx = currentCol+12;
+		gc3.gridx = currentCol+13;
 		gc3.gridy = currentRow-6;
 		setupSleep.setToolTipText("This represents delay multiplier (0.5 = 2xfaster, 2 = 2xslower)");
 		panel3.add(setupSleep, gc3);
@@ -3196,7 +3198,7 @@ public class L2RBot {
         	goClick(1856, 30);
         	Sleep2(90000);
         	goClick(82, 72);
-        	Sleep2(2000);
+        	Sleep2(3000);
         	goClick(244, 170); 
         	log("Starting L2R..");
         	Sleep2(35000);
@@ -5901,7 +5903,7 @@ public class L2RBot {
 		} else
 		if (running && cb_DA_HERBS.isSelected() && bbs.exists(DA_HERBS.similar(ACC_HIGH)) != null) {
 			if (running) pressButton(DA_HERBS, "HERBS");
-			if (running) Sleep(3000);
+			if (running) Sleep(5000);
 			if (running) lfac("DA_HERBS_ENTER", DA_HERBS_ENTER, DEFDELAY, false, ACCURACY);
 			if (running) Sleep2(DEF_STAGE_PAUSE);
 			if (running) goClick(BTN_MAP_X, BTN_MAP_Y); //map
@@ -5923,12 +5925,11 @@ public class L2RBot {
 			boolean notdone = true;
 			int deaths = 0;
 			while (running && notdone) {
-				if (running && bbs.exists(DA_HERBS_GATHER_BTN.similar(ACC_HIGH)) != null) {
-					if (running) goClick(BTN_AUTO_X, BTN_AUTO_Y); //auto
-					if (running) Sleep(2000);
-					if (running) lfac("DA_HERBS_GATHER_BTN", DA_HERBS_GATHER_BTN, 10, false, ACCURACY);
-				}
-				if (bbs.exists(MQ_SPOT_REVIVAL) != null) {
+				if (running) goClick(BTN_AUTO_X, BTN_AUTO_Y); //auto
+				if (running) Sleep(2000);
+				if (running) goClick(GATHERBTNX, GATHERBTNY); //use gather potion
+
+				if (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
 					deaths++;
 					if (running) lfac("SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(3000);
