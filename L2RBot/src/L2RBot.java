@@ -83,6 +83,11 @@ public class L2RBot {
 
 	private static App myapp;
 
+	private static Pattern AUTO_START_MYAPPS;
+	private static Pattern AUTO_START_L2;
+	private static Pattern AUTO_START_CLOSE;
+	private static Pattern AUTO_START_PLAY;
+	
 	private static Pattern MQ_CLAIM_REWARD;
 	private static Pattern MQ_ACCEPT_QUEST;
 	private static Pattern MQ_SPOT_REVIVAL;
@@ -216,8 +221,8 @@ public class L2RBot {
 	private static Pattern DA_ELITE_DUNGEON_IVORY1;
 	private static Pattern DA_ELITE_DUNGEON_IVORY2;
 	private static Pattern DA_ELITE_DUNGEON_IVORY3;
-	private static Pattern DA_ELITE_DUNGEON_DRAGON;
-	private static Pattern DA_ELITE_DUNGEON_TAINTED_DRAGON;
+	private static Pattern DA_ELITE_DUNGEON_FOS_CANOPY;
+	private static Pattern DA_ELITE_DUNGEON_FOS_UNDER;
 	private static Pattern DA_ELITE_DUNGEON_AUTOCLEAR;
 	private static Pattern DA_ELITE_DUNGEON_AUTOCLEAR_OK;
 	private static Pattern DA_ELITE_NOT_ENOUGH_DIAMONDS;
@@ -279,6 +284,7 @@ public class L2RBot {
 	private static Pattern INV_S2_CHOICE_STONE2;
 	private static Pattern INV_S2_CHOICE_VARNISH;
 	private static Pattern INV_S2_CHOICE_UPGRADE;
+	private static Pattern INV_S2_CHOICE_ENHANCE;
 	
 	private static Pattern INV_S2_NEXT;
 	private static Pattern INV_S3_OK;
@@ -361,6 +367,12 @@ public class L2RBot {
 	private static Pattern REWARD_X;
 	
 	private static Pattern TV_OK = new Pattern("images\\tv_ok.png");
+	
+	
+	private static final String STR_AUTO_START_MYAPPS = "auto_start_myapps.png";
+	private static final String STR_AUTO_START_L2 = "auto_start_l2.png";
+	private static final String STR_AUTO_START_CLOSE = "auto_start_close.png";
+	private static final String STR_AUTO_START_PLAY = "auto_start_play.png";
 	
 	private static final String STR_MQ_CLAIM_REWARD = "mq_claim_reward.png";
 	private static final String STR_MQ_ACCEPT_QUEST = "mq_accept_quest.png";
@@ -496,8 +508,8 @@ public class L2RBot {
 	private static final String STR_DA_ELITE_DUNGEON_IVORY1 = "da_elited_ivory1.png";
 	private static final String STR_DA_ELITE_DUNGEON_IVORY2 = "da_elited_ivory2.png";
 	private static final String STR_DA_ELITE_DUNGEON_IVORY3 = "da_elited_ivory3.png";
-	private static final String STR_DA_ELITE_DUNGEON_DRAGON = "da_elited_dragon.png";
-	private static final String STR_DA_ELITE_DUNGEON_TAINTED_DRAGON = "da_elited_tainted_dragon.png";
+	private static final String STR_DA_ELITE_DUNGEON_FOS_CANOPY = "da_elited_fos_canopy.png";
+	private static final String STR_DA_ELITE_DUNGEON_FOS_UNDER = "da_elited_fos_under.png";
 	private static final String STR_DA_ELITE_DUNGEON_AUTOCLEAR = "da_elited_autoclear.png";
 	private static final String STR_DA_ELITE_DUNGEON_AUTOCLEAR_OK = "da_elited_autoclear_ok.png";
 	private static final String STR_DA_ELITE_NOT_ENOUGH_DIAMONDS = "da_elite_not_enough_diamonds.png";
@@ -559,6 +571,8 @@ public class L2RBot {
 	private static final String STR_INV_S2_CHOICE_STONE2 = "inv_s2_choice_stone2.png";
 	private static final String STR_INV_S2_CHOICE_VARNISH = "inv_s2_choice_varnish.png";
 	private static final String STR_INV_S2_CHOICE_UPGRADE = "inv_s2_choice_upgrade.png";
+	private static final String STR_INV_S2_CHOICE_ENHANCE = "inv_s2_choice_enhance.png";
+	
 	private static final String STR_INV_S2_NEXT = "inv_s2_next.png";
 	private static final String STR_INV_S3_OK = "inv_s3_ok.png";
 	private static final String STR_INV_S4_OK = "inv_s4_ok.png";
@@ -662,10 +676,10 @@ public class L2RBot {
 	private static final int dungeon_map_ivory2_diff_y = 158;
 	private static final int dungeon_map_ivory3_diff_x = 220;
 	private static final int dungeon_map_ivory3_diff_y = 164;
-	private static final int dungeon_map_dragon_diff_x = 0;
-	private static final int dungeon_map_dragon_diff_y = 0;
-	private static final int dungeon_map_tntdrg_diff_x = 0;
-	private static final int dungeon_map_tntdrg_diff_y = 0;
+	private static final int dungeon_map_foscan_diff_x = 218;
+	private static final int dungeon_map_foscan_diff_y = 160;
+	private static final int dungeon_map_fosund_diff_x = 0;
+	private static final int dungeon_map_fosund_diff_y = 0;
 
 	private static final JTextArea talog = new JTextArea(24, 31);
 	
@@ -1067,7 +1081,7 @@ public class L2RBot {
 	private static boolean 	DEF_D4_WP4_A = false;
 	private static boolean 	DEF_D4_WP5_A = false;
 	
-	//DRAGON1
+	//FOS CANOPY
 	private static int 		DEF_D5_WP1_X = 550;
 	private static int 		DEF_D5_WP1_Y = 725;
 	private static int 		DEF_D5_WP1_D = 20;
@@ -1088,7 +1102,7 @@ public class L2RBot {
 	private static boolean 	DEF_D5_WP4_A = false;
 	private static boolean 	DEF_D5_WP5_A = false;
 	
-	//DRAGON2
+	//FOS UNDERSTORY
 	private static int 		DEF_D6_WP1_X = 550;
 	private static int 		DEF_D6_WP1_Y = 725;
 	private static int 		DEF_D6_WP1_D = 20;
@@ -1111,7 +1125,7 @@ public class L2RBot {
 	
 	private static double 	DEF_SLEEP = 1;
 	
-	private static String[] dungeonStrings = { "Cruma 3", "Ivory 1", "Ivory 2", "Ivory 3", "Dragon's Crater", "Tainted Dragon's Crater" };
+	private static String[] dungeonStrings = { "Cruma 3", "Ivory 1", "Ivory 2", "Ivory 3", "Forest of Secrets Canopy", "Forest of Secrets Understory" };
 
 	private static JComboBox<String> dungeonListDA = new JComboBox<>(dungeonStrings);
 	private static JComboBox<String> dungeonListDR = new JComboBox<>(dungeonStrings);
@@ -1135,7 +1149,8 @@ public class L2RBot {
 	private static final Settings setari = new Settings();
 	
 	private static float ACCURACY = 0.8f; //a fost 0.9 dar cu 0.7 merge si cu bluestacks  
-	private static float ACC_LOW = 0.5f;  
+	private static float ACC_LOW = 0.5f;
+	private static float ACC_DRAW = 0.89f;
 	private static float ACC_HIGH = 0.9f;
 	private static float ACC_095 = 0.95f;
 	private static float ACC_096 = 0.96f;
@@ -1218,7 +1233,7 @@ public class L2RBot {
 	
 	public static void main(String[] args) {
 
-		frame1 = new JFrame("L2RBot 5000 v1.1.20 build 420");
+		frame1 = new JFrame("L2RBot 5000 v1.1.21 build 420");
 		
 		frame1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame1.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -2722,7 +2737,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL6 = new JLabel("TAINTED DRAGON'S CRATER");
+		JLabel dungeonL6 = new JLabel("FOREST OF SECRETS CANOPY");
 		dungeonL6.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL6.setBorder(b2);
 		panel3.add(dungeonL6, gc3);
@@ -2930,12 +2945,12 @@ public class L2RBot {
 		    		cy = dungeon_map_ivory3_diff_y+mouseY-map_y_diff/2;
 		    	}
 		    	if (lastMap == "D5WP1" || lastMap == "D5WP2" || lastMap == "D5WP3" || lastMap == "D5WP4" || lastMap == "D5WP5") {
-		    		cx = dungeon_map_dragon_diff_x+mouseX-map_x_diff/2;
-		    		cy = dungeon_map_dragon_diff_y+mouseY-map_y_diff/2;
+		    		cx = dungeon_map_foscan_diff_x+mouseX-map_x_diff/2;
+		    		cy = dungeon_map_foscan_diff_y+mouseY-map_y_diff/2;
 		    	}
 		    	if (lastMap == "D6WP1" || lastMap == "D6WP2" || lastMap == "D6WP3" || lastMap == "D6WP4" || lastMap == "D6WP5") {
-		    		cx = dungeon_map_tntdrg_diff_x+mouseX-map_x_diff/2;
-		    		cy = dungeon_map_tntdrg_diff_y+mouseY-map_y_diff/2;
+		    		cx = dungeon_map_fosund_diff_x+mouseX-map_x_diff/2;
+		    		cy = dungeon_map_fosund_diff_y+mouseY-map_y_diff/2;
 		    	}
 
 		    	if (lastMap == "H1") {
@@ -3198,40 +3213,53 @@ public class L2RBot {
         	Sleep2(1000);
         	bbs.type(Key.ENTER);
         	log("Starting Bluestacks..");
-        	Sleep2(40000);
+        	Sleep2(10000);
         	goClick(1856, 30);
-        	Sleep2(90000);
-        	goClick(82, 72);
+        	Sleep2(5000);
+        	lfac_nr(AUTO_START_MYAPPS, ACCURACY);
         	Sleep2(3000);
-        	goClick(244, 170); 
+        	lfac_nr(AUTO_START_L2, ACCURACY);
+        	Sleep2(3000);
         	log("Starting L2R..");
-        	Sleep2(35000);
+        	Sleep2(40000);
         	goClick(955, 955);
         	log("MM Tap 1..");
-        	Sleep2(5000);
+        	Sleep2(10000);
         	goClick(955, 955);
         	log("MM Tap 2..");
-        	Sleep2(5000);
-        	if (bbs.exists(UPDATE_OK.similar(ACC_HIGH)) != null) {
+        	Sleep2(10000);
+        	goClick(955, 955);
+        	if (bbs.exists(UPDATE_OK.similar(ACCURACY)) != null) {
         		lfac_nr(UPDATE_OK, ACCURACY);
             	log("Update running..");
         		Sleep2(30000);
             	goClick(1868, 76);
         		Sleep2(30000);
-            	log("MM Tap..");
-            	Sleep2(5000);
+            	goClick(955, 955);
+            	log("MM Tap 1..");
+            	Sleep2(10000);
         	}
-        	Sleep2(30000);
-        	goClick(1868, 76);
-        	log("Close Add 1..");
-        	Sleep2(5000);
-        	goClick(1868, 76);
-        	log("Close Add 2..");
-        	Sleep2(5000);
-        	goClick(1868, 76);
-        	log("Close Add 3..");
-        	Sleep2(5000);
-        	goClick(1612, 1012);
+        	
+        	boolean done = false;
+        	while (!done) {
+        		if (bbs.exists(AUTO_START_CLOSE.similar(ACC_HIGH)) != null) {
+            		lfac_nr(AUTO_START_CLOSE, ACC_HIGH);
+            		log("Closing Add ..");
+                	Sleep2(1000);
+        		} else
+        		if (bbs.exists(AUTO_START_PLAY.similar(ACCURACY)) != null) {
+            		lfac_nr(AUTO_START_PLAY, ACCURACY);
+            		log("GAME START");
+            		done = true;
+        		} else {
+                	goClick(955, 955);
+                	log("MM Tap ..");
+                	Sleep2(5000);
+        		}
+        		Sleep2(2000);
+        	}
+        	
+        	
         	Sleep2(45000);
         	if (bbs.exists(REWARD_X.similar(ACCURACY)) != null) {
         		lfac_nr(REWARD_X, ACCURACY);
@@ -3278,6 +3306,12 @@ public class L2RBot {
 	}
 	
 	static void setupGraphics() {
+		
+		
+		AUTO_START_MYAPPS = scaledImageLocal(STR_AUTO_START_MYAPPS);
+		AUTO_START_L2 = scaledImageLocal(STR_AUTO_START_L2);
+		AUTO_START_CLOSE = scaledImageLocal(STR_AUTO_START_CLOSE);
+		AUTO_START_PLAY = scaledImageLocal(STR_AUTO_START_PLAY);
 		
 		MQ_CLAIM_REWARD = scaledImageLocal(STR_MQ_CLAIM_REWARD);
 		MQ_CLAIM_REWARD = scaledImageLocal(STR_MQ_CLAIM_REWARD);
@@ -3414,8 +3448,8 @@ public class L2RBot {
 		DA_ELITE_DUNGEON_IVORY1 = scaledImageLocal(STR_DA_ELITE_DUNGEON_IVORY1);
 		DA_ELITE_DUNGEON_IVORY2 = scaledImageLocal(STR_DA_ELITE_DUNGEON_IVORY2);
 		DA_ELITE_DUNGEON_IVORY3 = scaledImageLocal(STR_DA_ELITE_DUNGEON_IVORY3);
-		DA_ELITE_DUNGEON_DRAGON = scaledImageLocal(STR_DA_ELITE_DUNGEON_DRAGON);
-		DA_ELITE_DUNGEON_TAINTED_DRAGON = scaledImageLocal(STR_DA_ELITE_DUNGEON_TAINTED_DRAGON);
+		DA_ELITE_DUNGEON_FOS_CANOPY = scaledImageLocal(STR_DA_ELITE_DUNGEON_FOS_CANOPY);
+		DA_ELITE_DUNGEON_FOS_UNDER = scaledImageLocal(STR_DA_ELITE_DUNGEON_FOS_UNDER);
 		
 		DA_ELITE_DUNGEON_AUTOCLEAR = scaledImageLocal(STR_DA_ELITE_DUNGEON_AUTOCLEAR);
 		DA_ELITE_DUNGEON_AUTOCLEAR_OK = scaledImageLocal(STR_DA_ELITE_DUNGEON_AUTOCLEAR_OK);
@@ -3478,6 +3512,7 @@ public class L2RBot {
 		INV_S2_CHOICE_STONE2 = scaledImageLocalC(STR_INV_S2_CHOICE_STONE2);
 		INV_S2_CHOICE_VARNISH = scaledImageLocalC(STR_INV_S2_CHOICE_VARNISH);
 		INV_S2_CHOICE_UPGRADE = scaledImageLocalC(STR_INV_S2_CHOICE_UPGRADE);
+		INV_S2_CHOICE_ENHANCE = scaledImageLocalC(STR_INV_S2_CHOICE_ENHANCE);
 		INV_S2_NEXT = scaledImageLocal(STR_INV_S2_NEXT);
 		INV_S3_OK = scaledImageLocal(STR_INV_S3_OK);
 		INV_S4_OK = scaledImageLocal(STR_INV_S4_OK);
@@ -3568,8 +3603,8 @@ public class L2RBot {
 		if (dungeonListDA.getSelectedIndex() == 1) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_IVORY1; else
 		if (dungeonListDA.getSelectedIndex() == 2) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_IVORY2; else
 		if (dungeonListDA.getSelectedIndex() == 3) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_IVORY3; else
-		if (dungeonListDA.getSelectedIndex() == 4) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_DRAGON; else
-		if (dungeonListDA.getSelectedIndex() == 5) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_TAINTED_DRAGON; else
+		if (dungeonListDA.getSelectedIndex() == 4) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_FOS_CANOPY; else
+		if (dungeonListDA.getSelectedIndex() == 5) DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_FOS_UNDER; else
 			DA_ELITE_DUNGEON_CURRENT_BTN = DA_ELITE_DUNGEON_CRUMA3;	
 	}
 
@@ -3679,7 +3714,7 @@ public class L2RBot {
 		}
 		
 		if (dungeonListDR.getSelectedIndex() == 4) {
-			DUNGEON_RUN_CURRENT_BTN = DA_ELITE_DUNGEON_DRAGON; 
+			DUNGEON_RUN_CURRENT_BTN = DA_ELITE_DUNGEON_FOS_CANOPY; 
 			
 			DUNGEON_WP1_X = Integer.parseInt(D5_WP1X.getText());
 			DUNGEON_WP1_Y = Integer.parseInt(D5_WP1Y.getText());
@@ -3705,7 +3740,7 @@ public class L2RBot {
 		}
 		
 		if (dungeonListDR.getSelectedIndex() == 5) {
-			DUNGEON_RUN_CURRENT_BTN = DA_ELITE_DUNGEON_TAINTED_DRAGON; 
+			DUNGEON_RUN_CURRENT_BTN = DA_ELITE_DUNGEON_FOS_UNDER; 
 			
 			DUNGEON_WP1_X = Integer.parseInt(D6_WP1X.getText());
 			DUNGEON_WP1_Y = Integer.parseInt(D6_WP1Y.getText());
@@ -4637,6 +4672,7 @@ public class L2RBot {
 	static void accTest() {
 		
 		File sourceimage = new File("images\\configurable\\mail_box_acc_test.png");
+		//File sourceimage = new File("images\\da_free_draw.png");
 		
 		BufferedImage src = null;
 		BufferedImage img = null;
@@ -4850,27 +4886,27 @@ public class L2RBot {
 	
 	static class ActionMapD5WP1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D5WP1", "dungeon_map_dragon.png", D5_WP1X, D5_WP1Y, dungeon_map_dragon_diff_x, dungeon_map_dragon_diff_y);
+			loadMap("D5WP1", "dungeon_map_fos_canopy.png", D5_WP1X, D5_WP1Y, dungeon_map_foscan_diff_x, dungeon_map_foscan_diff_y);
 		}
 	}
 	static class ActionMapD5WP2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D5WP2", "dungeon_map_dragon.png", D5_WP2X, D5_WP2Y, dungeon_map_dragon_diff_x, dungeon_map_dragon_diff_y);
+			loadMap("D5WP2", "dungeon_map_fos_canopy.png", D5_WP2X, D5_WP2Y, dungeon_map_foscan_diff_x, dungeon_map_foscan_diff_y);
 		}
 	}
 	static class ActionMapD5WP3 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D5WP3", "dungeon_map_dragon.png", D5_WP3X, D5_WP3Y, dungeon_map_dragon_diff_x, dungeon_map_dragon_diff_y);
+			loadMap("D5WP3", "dungeon_map_fos_canopy.png", D5_WP3X, D5_WP3Y, dungeon_map_foscan_diff_x, dungeon_map_foscan_diff_y);
 		}
 	}
 	static class ActionMapD5WP4 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D5WP4", "dungeon_map_dragon.png", D5_WP4X, D5_WP4Y, dungeon_map_dragon_diff_x, dungeon_map_dragon_diff_y);
+			loadMap("D5WP4", "dungeon_map_fos_canopy.png", D5_WP4X, D5_WP4Y, dungeon_map_foscan_diff_x, dungeon_map_foscan_diff_y);
 		}
 	}
 	static class ActionMapD5WP5 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D5WP5", "dungeon_map_dragon.png", D5_WP5X, D5_WP5Y, dungeon_map_dragon_diff_x, dungeon_map_dragon_diff_y);
+			loadMap("D5WP5", "dungeon_map_fos_canopy.png", D5_WP5X, D5_WP5Y, dungeon_map_foscan_diff_x, dungeon_map_foscan_diff_y);
 		}
 	}
 	
@@ -4878,27 +4914,27 @@ public class L2RBot {
 	
 	static class ActionMapD6WP1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D6WP1", "dungeon_map_tntdrg.png", D6_WP1X, D6_WP1Y, dungeon_map_tntdrg_diff_x, dungeon_map_tntdrg_diff_y);
+			loadMap("D6WP1", "dungeon_map_fos_under.png", D6_WP1X, D6_WP1Y, dungeon_map_fosund_diff_x, dungeon_map_fosund_diff_y);
 		}
 	}
 	static class ActionMapD6WP2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D6WP2", "dungeon_map_tntdrg.png", D6_WP2X, D6_WP2Y, dungeon_map_tntdrg_diff_x, dungeon_map_tntdrg_diff_y);
+			loadMap("D6WP2", "dungeon_map_fos_under.png", D6_WP2X, D6_WP2Y, dungeon_map_fosund_diff_x, dungeon_map_fosund_diff_y);
 		}
 	}
 	static class ActionMapD6WP3 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D6WP3", "dungeon_map_tntdrg.png", D6_WP3X, D6_WP3Y, dungeon_map_tntdrg_diff_x, dungeon_map_tntdrg_diff_y);
+			loadMap("D6WP3", "dungeon_map_fos_under.png", D6_WP3X, D6_WP3Y, dungeon_map_fosund_diff_x, dungeon_map_fosund_diff_y);
 		}
 	}
 	static class ActionMapD6WP4 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D6WP4", "dungeon_map_tntdrg.png", D6_WP4X, D6_WP4Y, dungeon_map_tntdrg_diff_x, dungeon_map_tntdrg_diff_y);
+			loadMap("D6WP4", "dungeon_map_fos_under.png", D6_WP4X, D6_WP4Y, dungeon_map_fosund_diff_x, dungeon_map_fosund_diff_y);
 		}
 	}
 	static class ActionMapD6WP5 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			loadMap("D6WP5", "dungeon_map_tntdrg.png", D6_WP5X, D6_WP5Y, dungeon_map_tntdrg_diff_x, dungeon_map_tntdrg_diff_y);
+			loadMap("D6WP5", "dungeon_map_fos_under.png", D6_WP5X, D6_WP5Y, dungeon_map_fosund_diff_x, dungeon_map_fosund_diff_y);
 		}
 	}
 	
@@ -4966,10 +5002,18 @@ public class L2RBot {
 	}
 	
 	private static void lfac_nr(Pattern img, float ACC) {
-		try {
-			bbs.click(img.similar(ACC));
-		} catch (FindFailed e) {
-		}		
+		int x = 100;
+		while (x > 0) {
+			try {
+				if (bbs.exists(img.similar(ACC)) != null) {
+					bbs.click(img.similar(ACC));
+					x=1;
+				} 
+			} catch (FindFailed e) {
+			}
+			x--;
+			bbs.wait(1.0);
+		}
 	}
 	
 	public static void pressButton(Pattern bp, String txt) {
@@ -5244,8 +5288,11 @@ public class L2RBot {
 						jobDone();
 					}
 					counter++;
+					dailyTimer = 19;
+					checkOnDaily();
+					if (running) Sleep(1000);
 					if (running) goClick(storyBtnX, storyBtnY); //start story mode
-					if (running) Sleep(2000);
+					if (running) Sleep(1000);
 							
 				}
 				if (running && bbs.exists(MQ_ACCEPT_QUEST.similar(ACCURACY)) != null) {
@@ -5293,8 +5340,6 @@ public class L2RBot {
 					if (running) goClick(storyBtnX, storyBtnY); //start story mode
 					if (running) Sleep(2000);
 				}
-				
-				if (running) checkOnDaily();
 				
 				if (running) Sleep(500);
 			}
@@ -5394,6 +5439,10 @@ public class L2RBot {
 					if (running) lfac("CLAIM_REWARD", MQ_CLAIM_REWARD, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(2000);
 					counter++;
+					if (running) {
+						dailyTimer = 19;
+						checkOnDaily();
+					}
 				}
 				
 				if (running && bbs.exists(SUBQ_RESET) != null) {
@@ -5422,9 +5471,7 @@ public class L2RBot {
 					}
 				}
 				
-				if (running) checkOnDaily();
-
-				if (running) Sleep(2000);
+				if (running) Sleep(1000);
 			}
 			
 			log("--- Subquest Mode Done..");
@@ -5551,6 +5598,7 @@ public class L2RBot {
 	}
 
 	public static String dailies() {
+		
 		if (ez_DA_FREE_DRAW) {
 			
 		} else
@@ -5912,8 +5960,8 @@ public class L2RBot {
 		} else
 		if (running && cb_DA_HERBS.isSelected() && bbs.exists(DA_HERBS.similar(ACC_HIGH)) != null) {
 			if (running) pressButton(DA_HERBS, "HERBS");
-			if (running) Sleep(5000);
-			if (running) lfac("DA_HERBS_ENTER", DA_HERBS_ENTER, DEFDELAY, false, ACCURACY);
+			if (running) Sleep(6000);
+			if (running) lfac("DA_HERBS_ENTER", DA_HERBS_ENTER, 20, false, ACCURACY);
 			if (running) Sleep2(DEF_STAGE_PAUSE);
 			if (running) goClick(BTN_MAP_X, BTN_MAP_Y); //map
 			if (running) Sleep(3000);
@@ -6703,9 +6751,15 @@ public class L2RBot {
 							Sleep(700);
 							if (running) goClick(300, 300); //bugfix
 							Sleep(300);
+						} else
+						if (running && bbs.exists(INV_S2_CHOICE_ENHANCE.similar(ACC_HIGH)) != null) {
+							if (running) lfac("INV_S2_CHOICE_ENHANCE", INV_S2_CHOICE_ENHANCE, 1, false, ACC_HIGH); //TODO needs better image
+							Sleep(700);
+							if (running) goClick(300, 300); //bugfix
+							Sleep(300);
 						}
 					}
-					Sleep(2000);
+					Sleep(3000);
 
 					if (running) log("--- SortInv Mode...");
 					
