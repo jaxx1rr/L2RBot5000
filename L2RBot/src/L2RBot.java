@@ -1932,7 +1932,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL1 = new JLabel("CRUMA 3");
+		JLabel dungeonL1 = new JLabel("Cruma Tower Floor 3");
 		dungeonL1.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL1.setBorder(b2);
 		panel3.add(dungeonL1, gc3);
@@ -2098,7 +2098,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL2 = new JLabel("IVORY 1");
+		JLabel dungeonL2 = new JLabel("Ivory Tower Catacomb 1");
 		dungeonL2.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL2.setBorder(b2);
 		panel3.add(dungeonL2, gc3);
@@ -2257,7 +2257,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL3 = new JLabel("IVORY 2");
+		JLabel dungeonL3 = new JLabel("Ivory Tower Catacomb 2");
 		dungeonL3.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL3.setBorder(b2);
 		panel3.add(dungeonL3, gc3);
@@ -2423,7 +2423,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL4 = new JLabel("IVORY 3");
+		JLabel dungeonL4 = new JLabel("Ivory Tower Catacomb 3");
 		dungeonL4.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL4.setBorder(b2);
 		panel3.add(dungeonL4, gc3);
@@ -2580,7 +2580,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL5 = new JLabel("DRAGON'S CRATER");
+		JLabel dungeonL5 = new JLabel("Forest of Secrets Canopy");
 		dungeonL5.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL5.setBorder(b2);
 		panel3.add(dungeonL5, gc3);
@@ -2737,7 +2737,7 @@ public class L2RBot {
 		
 		gc3.gridx = currentCol+1;
 		gc3.gridy = currentRow;
-		JLabel dungeonL6 = new JLabel("FOREST OF SECRETS CANOPY");
+		JLabel dungeonL6 = new JLabel("Forest of Secrets Understory");
 		dungeonL6.setFont(new Font("Arial", Font.PLAIN, titleSize));
 		dungeonL6.setBorder(b2);
 		panel3.add(dungeonL6, gc3);
