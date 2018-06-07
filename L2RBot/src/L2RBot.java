@@ -91,6 +91,7 @@ public class L2RBot {
 	private static Pattern MQ_CLAIM_REWARD;
 	private static Pattern MQ_ACCEPT_QUEST;
 	private static Pattern MQ_SPOT_REVIVAL;
+	private static Pattern MQ_DEATH_X;
 	private static Pattern MQ_WALK_TOWARDS;
 	private static Pattern MQ_QUEST_ARROWS;
 	private static Pattern MQ_QUEST_SKIP;
@@ -377,6 +378,7 @@ public class L2RBot {
 	private static final String STR_MQ_CLAIM_REWARD = "mq_claim_reward.png";
 	private static final String STR_MQ_ACCEPT_QUEST = "mq_accept_quest.png";
 	private static final String STR_MQ_SPOT_REVIVAL = "mq_spot_revival.png";
+	private static final String STR_MQ_DEATH_X = "mq_death_x.png";
 	private static final String STR_MQ_WALK_TOWARDS = "mq_walk_towards.png";
 	private static final String STR_MQ_QUEST_ARROWS = "mq_quest_arrows.png";
 	private static final String STR_MQ_QUEST_SKIP = "mq_quest_skip.png";
@@ -1125,7 +1127,7 @@ public class L2RBot {
 	
 	private static double 	DEF_SLEEP = 1;
 	
-	private static String[] dungeonStrings = { "Cruma 3", "Ivory 1", "Ivory 2", "Ivory 3", "Forest of Secrets Canopy", "Forest of Secrets Understory" };
+	private static String[] dungeonStrings = { "Cruma Tower Floor 3", "Ivory Tower Catacomb 1", "Ivory Tower Catacomb 2", "Ivory Tower Catacomb 3", "Forest of Secrets Canopy", "Forest of Secrets Understory" };
 
 	private static JComboBox<String> dungeonListDA = new JComboBox<>(dungeonStrings);
 	private static JComboBox<String> dungeonListDR = new JComboBox<>(dungeonStrings);
@@ -3317,6 +3319,7 @@ public class L2RBot {
 		MQ_CLAIM_REWARD = scaledImageLocal(STR_MQ_CLAIM_REWARD);
 		MQ_ACCEPT_QUEST = scaledImageLocal(STR_MQ_ACCEPT_QUEST);
 		MQ_SPOT_REVIVAL = scaledImageLocal(STR_MQ_SPOT_REVIVAL);
+		MQ_DEATH_X = scaledImageLocal(STR_MQ_DEATH_X);
 		MQ_WALK_TOWARDS = scaledImageLocal(STR_MQ_WALK_TOWARDS);
 		MQ_QUEST_ARROWS = scaledImageLocal(STR_MQ_QUEST_ARROWS);
 		MQ_QUEST_SKIP = scaledImageLocal(STR_MQ_QUEST_SKIP);
@@ -5260,7 +5263,7 @@ public class L2RBot {
 			
 			exitMenues();
 			
-			if (bbs.exists(MQ_LOCKED) != null) {
+			if (bbs.exists(MQ_LOCKED.similar(ACCURACY)) != null || bbs.exists(MQ_LOCKED2.similar(ACCURACY)) != null) {
 				done_ms = true;
 				jobDone();
 			}
@@ -5283,7 +5286,7 @@ public class L2RBot {
 				if (running && bbs.exists(MQ_CLAIM_REWARD.similar(ACCURACY)) != null) {
 					if (running) lfac("MQ_CLAIM_REWARD", MQ_CLAIM_REWARD, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(2000);
-					if (bbs.exists(MQ_LOCKED) != null) {
+					if (bbs.exists(MQ_LOCKED.similar(ACCURACY)) != null || bbs.exists(MQ_LOCKED2.similar(ACCURACY)) != null) {
 						done_ms = true;
 						jobDone();
 					}
@@ -5299,11 +5302,17 @@ public class L2RBot {
 					if (running) lfac("ACCEPT_QUEST", MQ_ACCEPT_QUEST, DEFDELAY, false, ACCURACY);
 					log("--- Story Mode Q:"+(counter+1));
 				}
-				if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
-					if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
-					if (running) Sleep(4000);
-					if (running) goClick(1840, 430); //X
-					if (running) Sleep(2000);
+				
+				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
+					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(4000);
+						if (running) goClick(1840, 430); //X
+						if (running) Sleep(2000);
+					} else {
+						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
 					if (running) goClick(storyBtnX, storyBtnY); //start story mode
 					if (running) Sleep(2000);
 					deathcount++;
@@ -5319,7 +5328,7 @@ public class L2RBot {
 				if (running && (bbs.exists(MQ_QUEST_ARROWS) != null || bbs.exists(MQ_QUEST_SKIP) != null)) {
 					if (running) goClick(1820, 820); //skip
 					if (running) Sleep(2000);
-					if (bbs.exists(MQ_LOCKED) != null) {
+					if (bbs.exists(MQ_LOCKED.similar(ACCURACY)) != null || bbs.exists(MQ_LOCKED2.similar(ACCURACY)) != null) {
 						done_ms = true;
 						jobDone();
 					}
@@ -5333,7 +5342,7 @@ public class L2RBot {
 				if (running && bbs.exists(MQ_CONTINUE.similar(ACCURACY)) != null) {
 					if (running) lfac("MQ_CONTINUE", MQ_CONTINUE, DEFDELAY, false, ACCURACY);
 					if (running) Sleep2(10000);
-					if (bbs.exists(MQ_LOCKED) != null) {
+					if (bbs.exists(MQ_LOCKED.similar(ACCURACY)) != null || bbs.exists(MQ_LOCKED2.similar(ACCURACY)) != null) {
 						done_ms = true;
 						jobDone();
 					}
@@ -5571,11 +5580,17 @@ public class L2RBot {
 					cctr++;
 				}
 				
-				if (bbs.exists(MQ_SPOT_REVIVAL) != null) {
-					if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
-					if (running) Sleep(4000);
-					if (running) goClick(1840, 430); //X
-					if (running) Sleep(2000);
+				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
+					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(4000);
+						if (running) goClick(1840, 430); //X
+						if (running) Sleep(2000);
+					} else {
+						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
+					
 					if (running) goClick(130, 650); //cont weekly
 					if (running) Sleep(2000);
 					if (bbs.exists(MQ_WALK_TOWARDS.similar(ACCURACY)) != null) {
@@ -5986,12 +6001,18 @@ public class L2RBot {
 				if (running) Sleep(2000);
 				if (running) goClick(GATHERBTNX, GATHERBTNY); //use gather potion
 
-				if (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
 					deaths++;
-					if (running) lfac("SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
-					if (running) Sleep(3000);
-					if (running) goClick(1840, 430); //X
-					if (running) Sleep(2000);
+					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(3000);
+						if (running) goClick(1840, 430); //X
+						if (running) Sleep(2000);
+					} else {
+						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
+
 					if (running) goClick(BTN_MAP_X, BTN_MAP_Y); //map
 					if (running) Sleep(3000);
 					if (running && deaths == 1) goClick(Integer.parseInt(coordHerbs2X.getText()), Integer.parseInt(coordHerbs2Y.getText())); //go here to gather because area 1 is hostile
@@ -6994,11 +7015,16 @@ public class L2RBot {
 					if (running) Sleep(2000);
 				}
 				
-				if (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
-					if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
-					if (running) Sleep(4000);
-					if (running) goClick(1840, 430); //X
-					if (running) Sleep(2000);
+				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
+					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(4000);
+						if (running) goClick(1840, 430); //X
+						if (running) Sleep(2000);
+					} else {
+						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
 					dead = true;
 				}
 				
