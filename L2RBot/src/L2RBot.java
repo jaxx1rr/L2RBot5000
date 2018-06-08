@@ -5322,6 +5322,7 @@ public class L2RBot {
 						jobDone();
 					}
 				}
+				
 				if (running && bbs.exists(MQ_WALK_TOWARDS.similar(ACCURACY)) != null) {
 					if (running) lfac("MQ_WALK_TOWARDS", MQ_WALK_TOWARDS, 1, false, ACCURACY);
 				}					
@@ -5413,6 +5414,7 @@ public class L2RBot {
 			}
 			
 			int counter = 0;
+			int deathcount = 0;
 			while (running) { // loop this event
 
 				if (running && bbs.exists(SUBQ_AVAIL.similar(ACCURACY)) != null) {
@@ -5473,6 +5475,33 @@ public class L2RBot {
 						}
 					} else {
 						if (running) log(">>Subquest reset disabled. We are done here!");
+						done_sq = true;
+						jobDone();
+						busy = false;
+						break;
+					}
+				}
+				
+				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
+					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
+						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(4000);
+						if (running) goClick(1840, 430); //X
+						if (running) Sleep(2000);
+					} else {
+						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
+					
+					if (running && bbs.exists(SUBQ_CONT) != null) {
+						if (running) lfac("SUBQ_CONT", SUBQ_CONT, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+					}
+					
+					if (running) Sleep(2000);
+					deathcount++;
+					if (deathcount > 4) {
+						log("DIED 5 TIMES ALREADY.. SOMETHINGS OFF.. STOPPING");
 						done_sq = true;
 						jobDone();
 						busy = false;
