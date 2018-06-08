@@ -5934,23 +5934,23 @@ public class L2RBot {
 
 			int maxctr = 0;
 			boolean notfound = true;
-			while (running && maxctr < 4 && notfound) {
-				if (bbs.exists(DA_ELITE_DUNGEON_CURRENT_BTN.similar(ACC_096)) != null) notfound = false; else {
+			while (running && maxctr < 8 && notfound) {
+				if (bbs.exists(DA_ELITE_DUNGEON_CURRENT_BTN.similar(ACC_HIGH)) != null) notfound = false; else {
 					//score(DA_ELITE_DUNGEON_CURRENT_BTN);
-					if (maxctr == 1 || maxctr == 3) {
+					if (maxctr == 1 || maxctr == 3 || maxctr == 5) {
 						if (running) slidec(400, 900, 400, 300);
 					} 
 					if (running) Sleep(3000);
 				}
 				maxctr++;
 			}
-			
-			if (maxctr == 4) {
+
+			if (maxctr == 8) {
 				log("> could not enter elite dungeon");
 				return "cont";
 			}
 			
-			if (running) lfac("DA_ELITE_DUNGEON_CURRENT_BTN", DA_ELITE_DUNGEON_CURRENT_BTN, DEFDELAY, false, ACC_096);
+			if (running) lfac("DA_ELITE_DUNGEON_CURRENT_BTN", DA_ELITE_DUNGEON_CURRENT_BTN, DEFDELAY, false, ACC_HIGH);
 			if (running) Sleep(2000);
 			
 			if (running) lfac("DA_ELITE_DUNGEON_AUTOCLEAR", DA_ELITE_DUNGEON_AUTOCLEAR, DEFDELAY, false, ACCURACY);
@@ -6915,30 +6915,19 @@ public class L2RBot {
 				
 				startDungeon();
 
-				int maxctr;
+				int maxctr = 0;
 				boolean notfound = true;
-				int tryn = 0;
-				float tryacc = ACC_096;
-				while (running && notfound && tryn < 3) {
-					if (tryn == 1) tryacc = ACC_HIGH;
-					maxctr = 0;
-					while (running && maxctr < 4) {
-						if (bbs.exists(DUNGEON_RUN_CURRENT_BTN.similar(tryacc)) != null) notfound = false; else {
-							//score(DUNGEON_RUN_CURRENT_BTN);
-							if (maxctr == 1 || maxctr == 3) {
-								if (running) slidec(400, 900, 400, 300);
-							} 
-							if (running) Sleep(3000);
-						}
-						maxctr++;
+				while (running && maxctr < 8 && notfound) {
+					if (bbs.exists(DUNGEON_RUN_CURRENT_BTN.similar(ACC_HIGH)) != null) notfound = false; else {
+						if (maxctr == 1 || maxctr == 3 || maxctr == 5) {
+							if (running) slidec(400, 900, 400, 300);
+						} 
+						if (running) Sleep(3000);
 					}
-					if (running && notfound) {
-						startDungeon();
-					}
-					tryn++;
+					maxctr++;
 				}
 				
-				if (running) lfac("DUNGEON_RUN_CURRENT_BTN", DUNGEON_RUN_CURRENT_BTN, DEFDELAY, false, tryacc);
+				if (running) lfac("DUNGEON_RUN_CURRENT_BTN", DUNGEON_RUN_CURRENT_BTN, DEFDELAY, false, ACC_HIGH);
 				if (running) Sleep(2000);
 				if (running) lfac("DUNGEON_ENTER", DUNGEON_ENTER, DEFDELAY, false, ACCURACY);
 				if (running) Sleep(500);
