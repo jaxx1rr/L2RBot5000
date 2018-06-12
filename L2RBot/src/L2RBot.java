@@ -366,6 +366,12 @@ public class L2RBot {
 	
 	private static Pattern UPDATE_OK;
 	private static Pattern REWARD_X;
+
+	private static Pattern INVSELL_BULK;
+	private static Pattern INVSELL_SELL;
+	private static Pattern INVSELL_SELL_CONF;
+	private static Pattern INVSELL_SELL_OK;
+
 	
 	private static Pattern TV_OK = new Pattern("images\\tv_ok.png");
 	
@@ -653,6 +659,11 @@ public class L2RBot {
 	
 	private static final String STR_UPDATE_OK = "update_ok.png";
 	private static final String STR_REWARD_X = "reward_x.png";
+	
+	private static final String STR_INVSELL_BULK = "invsell_bulk.png";
+	private static final String STR_INVSELL_SELL = "invsell_sell.png";
+	private static final String STR_INVSELL_SELL_CONF = "invsell_sell_conf.png";
+	private static final String STR_INVSELL_SELL_OK = "invsell_sell_ok.png";
 	
 	private static Pattern DA_ELITE_DUNGEON_CURRENT_BTN;
 	private static Pattern DUNGEON_RUN_CURRENT_BTN;
@@ -1157,6 +1168,7 @@ public class L2RBot {
 	private static float ACC_095 = 0.95f;
 	private static float ACC_096 = 0.96f;
 	private static float ACC_097 = 0.97f;
+	private static float ACC_099 = 0.99f;
 	private static float ACC_PVP = 0.95f; 
 	private static float ACC_MAX = 0.98f;
 	
@@ -3596,6 +3608,11 @@ public class L2RBot {
 		UPDATE_OK = scaledImageLocal(STR_UPDATE_OK);
 		REWARD_X = scaledImageLocal(STR_REWARD_X);
 		
+		INVSELL_BULK = scaledImageLocal(STR_INVSELL_BULK);
+		INVSELL_SELL = scaledImageLocal(STR_INVSELL_SELL);
+		INVSELL_SELL_CONF = scaledImageLocal(STR_INVSELL_SELL_CONF);
+		INVSELL_SELL_OK = scaledImageLocal(STR_INVSELL_SELL_OK);
+		
 	    setupDA_dungeon();
 	    setupDR_dungeon();
 		
@@ -4675,7 +4692,7 @@ public class L2RBot {
 	static void accTest() {
 		
 		File sourceimage = new File("images\\configurable\\mail_box_acc_test.png");
-		//File sourceimage = new File("images\\da_free_draw.png");
+		//File sourceimage = new File("images\\da_elited_ivory3.png");
 		
 		BufferedImage src = null;
 		BufferedImage img = null;
@@ -5964,7 +5981,7 @@ public class L2RBot {
 			int maxctr = 0;
 			boolean notfound = true;
 			while (running && maxctr < 8 && notfound) {
-				if (bbs.exists(DA_ELITE_DUNGEON_CURRENT_BTN.similar(ACC_HIGH)) != null) notfound = false; else {
+				if (bbs.exists(DA_ELITE_DUNGEON_CURRENT_BTN.similar(ACC_099)) != null) notfound = false; else {
 					//score(DA_ELITE_DUNGEON_CURRENT_BTN);
 					if (maxctr == 1 || maxctr == 3 || maxctr == 5) {
 						if (running) slidec(400, 900, 400, 300);
@@ -5979,7 +5996,7 @@ public class L2RBot {
 				return "cont";
 			}
 			
-			if (running) lfac("DA_ELITE_DUNGEON_CURRENT_BTN", DA_ELITE_DUNGEON_CURRENT_BTN, DEFDELAY, false, ACC_HIGH);
+			if (running) lfac("DA_ELITE_DUNGEON_CURRENT_BTN", DA_ELITE_DUNGEON_CURRENT_BTN, DEFDELAY, false, ACC_099);
 			if (running) Sleep(2000);
 			
 			if (running) lfac("DA_ELITE_DUNGEON_AUTOCLEAR", DA_ELITE_DUNGEON_AUTOCLEAR, DEFDELAY, false, ACCURACY);
@@ -6931,6 +6948,40 @@ public class L2RBot {
 		if (running) Sleep(3000);
 	}
 	
+	static void sellStuff() {
+
+		exitMenues();
+		if (running) goClick(BTN_INV_X, BTN_INV_Y); //inventory
+		if (running) Sleep(3000);
+		
+		if (running && bbs.exists(INV_SCREEN.similar(ACCURACY)) != null) {
+		} else {
+			exitMenues();
+			if (running) goClick(BTN_INV_X, BTN_INV_Y); //inventory
+			if (running) Sleep(3000);
+		}
+		
+		if (running) lfac("INVSELL_BULK", INVSELL_BULK, DEFDELAY, false, ACCURACY);
+		
+		boolean selling = true;
+		while (running && selling) {
+			if (bbs.exists(INVSELL_SELL.similar(ACCURACY)) == null) {
+				selling = false;
+			} else {
+				if (running) lfac("INVSELL_SELL", INVSELL_SELL, DEFDELAY, false, ACCURACY);
+				if (running) Sleep(2000);
+				if (running) lfac("INVSELL_SELL_CONF", INVSELL_SELL_CONF, DEFDELAY, false, ACCURACY);
+				if (running) Sleep(4000);
+				if (running) lfac("INVSELL_SELL_OK", INVSELL_SELL_OK, DEFDELAY, false, ACCURACY);
+				if (running) Sleep(2000);
+			}
+		}
+		
+		lfac("EXIT", EXIT, DEFDELAY, false, ACCURACY);
+		Sleep(2000);
+		
+	}
+	
 	public static void dungeonRun() {
 		
 		log("--- DungeonRun Mode..");
@@ -6947,7 +6998,7 @@ public class L2RBot {
 				int maxctr = 0;
 				boolean notfound = true;
 				while (running && maxctr < 8 && notfound) {
-					if (bbs.exists(DUNGEON_RUN_CURRENT_BTN.similar(ACC_HIGH)) != null) notfound = false; else {
+					if (bbs.exists(DUNGEON_RUN_CURRENT_BTN.similar(ACC_099)) != null) notfound = false; else {
 						if (maxctr == 1 || maxctr == 3 || maxctr == 5) {
 							if (running) slidec(400, 900, 400, 300);
 						} 
@@ -6956,7 +7007,7 @@ public class L2RBot {
 					maxctr++;
 				}
 				
-				if (running) lfac("DUNGEON_RUN_CURRENT_BTN", DUNGEON_RUN_CURRENT_BTN, DEFDELAY, false, ACC_HIGH);
+				if (running) lfac("DUNGEON_RUN_CURRENT_BTN", DUNGEON_RUN_CURRENT_BTN, DEFDELAY, false, ACC_099);
 				if (running) Sleep(2000);
 				if (running) lfac("DUNGEON_ENTER", DUNGEON_ENTER, DEFDELAY, false, ACCURACY);
 				if (running) Sleep(500);
@@ -7044,6 +7095,10 @@ public class L2RBot {
 						if (running) Sleep(2000);
 					}
 					dead = true;
+				}
+				
+				if (running && ctrpos==0) {
+					sellStuff();
 				}
 				
 				if (running && ctrpos==20) {
