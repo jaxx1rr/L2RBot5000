@@ -3223,12 +3223,12 @@ public class L2RBot {
 		log("Init - complete.");
 		
         if (args.length > 0 && args[0].equals("auto")) {
-        	goClick(414, 654);
+        	goClick2(414, 654);
         	Sleep2(1000);
         	bbs.type(Key.ENTER);
         	log("Starting Bluestacks..");
-        	Sleep2(10000);
-        	goClick(1856, 30);
+        	Sleep2(20000);
+        	goClick2(1856, 30);
         	Sleep2(5000);
         	lfac_nr(AUTO_START_MYAPPS, ACCURACY);
         	Sleep2(3000);
@@ -5022,7 +5022,7 @@ public class L2RBot {
 	}
 	
 	private static void lfac_nr(Pattern img, float ACC) {
-		int x = 100;
+		int x = 300;
 		while (x > 0) {
 			try {
 				if (bbs.exists(img.similar(ACC)) != null) {
@@ -5260,6 +5260,20 @@ public class L2RBot {
 		nx = nx-OFFSETX_INIT+Integer.parseInt(setupOffsetX.getText());
 		ny = ny-OFFSETY_INIT+Integer.parseInt(setupOffsetY.getText());
 		
+		try {
+			bbs.click(new Location(nx, ny));
+		} catch (FindFailed e) {
+			//e.printStackTrace();
+		}
+	}
+	
+	static void goClick2(int x, int y) {
+		
+		//log("goClick:"+x+"|"+y);
+		
+		float nx = DEFX+x;
+		float ny = y;
+
 		try {
 			bbs.click(new Location(nx, ny));
 		} catch (FindFailed e) {
@@ -6049,6 +6063,7 @@ public class L2RBot {
 
 				if (running && (bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null || bbs.exists(MQ_DEATH_X.similar(ACCURACY)) != null)) {
 					deaths++;
+					if (running) log("! died at herbs #"+deaths);
 					if (running && bbs.exists(MQ_SPOT_REVIVAL.similar(ACCURACY)) != null) {
 						if (running) lfac("MQ_SPOT_REVIVAL", MQ_SPOT_REVIVAL, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(3000);
