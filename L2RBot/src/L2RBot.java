@@ -5344,6 +5344,7 @@ public class L2RBot {
 						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
 					}
+					checkPotions();
 					if (running) goClick(storyBtnX, storyBtnY); //start story mode
 					if (running) Sleep(2000);
 					deathcount++;
@@ -5523,6 +5524,7 @@ public class L2RBot {
 						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
 					}
+					checkPotions();
 					
 					if (running && bbs.exists(SUBQ_CONT) != null) {
 						if (running) lfac("SUBQ_CONT", SUBQ_CONT, DEFDELAY, false, ACCURACY);
@@ -5650,6 +5652,7 @@ public class L2RBot {
 						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
 					}
+					checkPotions();
 					
 					if (running) goClick(130, 650); //cont weekly
 					if (running) Sleep(2000);
@@ -6073,6 +6076,7 @@ public class L2RBot {
 						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
 					}
+					checkPotions();
 
 					if (running) goClick(BTN_MAP_X, BTN_MAP_Y); //map
 					if (running) Sleep(3000);
@@ -6213,7 +6217,7 @@ public class L2RBot {
 			if (running) pressButton(DA_TRIALS, "TRIALS OF EXPERIENCE");
 			if (running) Sleep(3000);
 
-			for (int i=0;i<2;i++) { //run two times
+			for (int i=0;i<1;i++) { //run two times //updated for 1 time
 				if (running) lfac("DA_TRIALS_AC", DA_TRIALS_AC, DEFDELAY, false, ACCURACY);
 				if (running) Sleep(3000);
 				boolean failedt = false;
@@ -7109,6 +7113,7 @@ public class L2RBot {
 						if (running) lfac("MQ_DEATH_X", MQ_DEATH_X, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
 					}
+					checkPotions();
 					dead = true;
 				}
 				
@@ -7325,24 +7330,30 @@ public class L2RBot {
 	}
 
 	
+	public static void checkPotions() {
+		if (running && bbs.exists(POTIONS_0.similar(ACC_HIGH)) != null) {
+			if (running) goClick(BTN_SHOP_X, BTN_SHOP_Y); //shop
+			if (running) Sleep2(5000);
+			if (running) lfac("BTN_CONSUMABLES", BTN_CONSUMABLES, DEFDELAY, false, ACC_095);
+			if (running) Sleep(2000);
+			boolean ok;
+			ok = buyPotions();
+			if (ok) ok = buyPotions();
+			if (ok) ok = buyPotions();
+			if (ok) ok = buyPotions();
+			if (ok) ok = buyPotions();
+			if (running) lfac("EXIT", EXIT, DEFDELAY, false, ACCURACY);
+			if (running) Sleep(2000);
+		}
+	}
+	
 	public static void checkOnDaily() {
 		
 		dailyTimer++;
 		
 		if (dailyTimer == 5 || dailyTimer == 10 || dailyTimer == 15 || dailyTimer == 20) {
 			//if (running && (bbs.exists(POTIONS_0.similar(ACC_HIGH)) != null || bbs.exists(POTIONS_10.similar(ACC_ULTRA)) != null || bbs.exists(POTIONS_15.similar(ACC_ULTRA)) != null || bbs.exists(POTIONS_20.similar(ACC_ULTRA)) != null)) {
-			if (running && bbs.exists(POTIONS_0.similar(ACC_HIGH)) != null) {
-				if (running) goClick(BTN_SHOP_X, BTN_SHOP_Y); //shop
-				if (running) Sleep2(5000);
-				if (running) lfac("BTN_CONSUMABLES", BTN_CONSUMABLES, DEFDELAY, false, ACC_095);
-				if (running) Sleep(2000);
-				boolean ok;
-				ok = buyPotions();
-				if (ok) ok = buyPotions();
-				if (ok) ok = buyPotions();
-				if (running) lfac("EXIT", EXIT, DEFDELAY, false, ACCURACY);
-				if (running) Sleep(2000);
-			}
+			checkPotions();
 		}
 		
 		if (dailyTimer < 20) return;
