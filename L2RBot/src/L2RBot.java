@@ -87,6 +87,7 @@ public class L2RBot {
 	private static Pattern AUTO_START_L2;
 	private static Pattern AUTO_START_CLOSE;
 	private static Pattern AUTO_START_PLAY;
+	private static Pattern AUTO_START_X;
 	
 	private static Pattern MQ_CLAIM_REWARD;
 	private static Pattern MQ_ACCEPT_QUEST;
@@ -127,7 +128,9 @@ public class L2RBot {
 	private static Pattern SUBQ_A;
 	private static Pattern SUBQ_B;
 	private static Pattern SUBQ_X;
+	private static Pattern SUBQ_X2;
 	private static Pattern SUBQ_FF;
+	private static Pattern SUBQ_NS;
 	private static Pattern SUBQ_OK;
 	private static Pattern SUBQ_START;
 	private static Pattern SUBQ_CONT;
@@ -141,6 +144,8 @@ public class L2RBot {
 	private static Pattern SUBQ_RESET_COUNT50;
 	private static Pattern SUBQ_RESET_RESET;
 	private static Pattern SUBQ_RESET_CANCEL;
+	private static Pattern SUBQ_DONE;
+	private static Pattern SUBQ_DONE_OK;
 	private static Pattern EXIT;
 	
 	private static Pattern DAILY_ACT;
@@ -380,6 +385,7 @@ public class L2RBot {
 	private static final String STR_AUTO_START_L2 = "auto_start_l2.png";
 	private static final String STR_AUTO_START_CLOSE = "auto_start_close.png";
 	private static final String STR_AUTO_START_PLAY = "auto_start_play.png";
+	private static final String STR_AUTO_START_X = "auto_start_x.png";
 	
 	private static final String STR_MQ_CLAIM_REWARD = "mq_claim_reward.png";
 	private static final String STR_MQ_ACCEPT_QUEST = "mq_accept_quest.png";
@@ -420,7 +426,10 @@ public class L2RBot {
 	private static final String STR_SUBQ_A = "subquests_a.png";
 	private static final String STR_SUBQ_B = "subquests_b.png";
 	private static final String STR_SUBQ_X = "subquests_x.png";
-	private static final String STR_SUBQ_FF = "subquests_fulfill.png";
+	private static final String STR_SUBQ_X2 = "subquests_x2.png";
+	private static final String STR_SUBQ_FF = "subquests_change.png"; //updated image
+	private static final String STR_SUBQ_NS = "subquests_noscrolls.png"; //updated image
+	
 	private static final String STR_SUBQ_OK = "subquests_ok.png";
 	private static final String STR_SUBQ_START = "subquests_start.png";
 	private static final String STR_SUBQ_CONT = "subquests_sub.png";
@@ -434,6 +443,8 @@ public class L2RBot {
 	private static final String STR_SUBQ_RESET_COUNT50 = "subquests_reset_count50.png";
 	private static final String STR_SUBQ_RESET_RESET = "subquests_reset_reset.png";
 	private static final String STR_SUBQ_RESET_CANCEL = "subquests_reset_cancel.png";
+	private static final String STR_SUBQ_DONE = "subquests_done.png";
+	private static final String STR_SUBQ_DONE_OK = "subquests_done_ok.png";
 	
 	private static final String STR_EXIT = "exit.png";
 	
@@ -1206,6 +1217,9 @@ public class L2RBot {
 	private static int BTN_CH_MENU_Y = 260; 
 	private static int BTN_CH_RELIC_X = 1550; 
 	private static int BTN_CH_RELIC_Y = 600;
+	
+	private static int BTN_DUNGEON_START_X = 1712;
+	private static int BTN_DUNGEON_START_Y = 506;
 	
 	private static final int OFFSETX_INIT = 12;
 	private static final int OFFSETY_INIT = 46;
@@ -3226,16 +3240,22 @@ public class L2RBot {
         	goClick2(414, 654);
         	Sleep2(1000);
         	bbs.type(Key.ENTER);
-        	log("Starting Bluestacks..");
-        	Sleep2(20000);
-        	goClick2(1856, 30);
-        	Sleep2(5000);
+        	log("Starting Bluestacks ..");
+        	Sleep2(15000);
+        	goClick2(1856, 30); //Maximise
+        	Sleep2(15000);
+        	log("My Apps click");
         	lfac_nr(AUTO_START_MYAPPS, ACCURACY);
         	Sleep2(3000);
         	lfac_nr(AUTO_START_L2, ACCURACY);
         	Sleep2(3000);
         	log("Starting L2R..");
-        	Sleep2(40000);
+        	Sleep2(30000);
+        	if (bbs.exists(AUTO_START_X.similar(ACCURACY)) != null) {
+        		lfac_nr(AUTO_START_X, ACCURACY);
+            	Sleep2(5000);
+        	}
+        	Sleep2(10000);
         	goClick(955, 955);
         	log("MM Tap 1..");
         	Sleep2(10000);
@@ -3326,6 +3346,7 @@ public class L2RBot {
 		AUTO_START_L2 = scaledImageLocal(STR_AUTO_START_L2);
 		AUTO_START_CLOSE = scaledImageLocal(STR_AUTO_START_CLOSE);
 		AUTO_START_PLAY = scaledImageLocal(STR_AUTO_START_PLAY);
+		AUTO_START_X = scaledImageLocal(STR_AUTO_START_X);
 		
 		MQ_CLAIM_REWARD = scaledImageLocal(STR_MQ_CLAIM_REWARD);
 		MQ_CLAIM_REWARD = scaledImageLocal(STR_MQ_CLAIM_REWARD);
@@ -3367,7 +3388,9 @@ public class L2RBot {
 		SUBQ_A = scaledImageLocal(STR_SUBQ_A);
 		SUBQ_B = scaledImageLocal(STR_SUBQ_B);
 		SUBQ_X = scaledImageLocal(STR_SUBQ_X);
+		SUBQ_X2 = scaledImageLocal(STR_SUBQ_X2);
 		SUBQ_FF = scaledImageLocal(STR_SUBQ_FF);
+		SUBQ_NS = scaledImageLocal(STR_SUBQ_NS);
 		SUBQ_OK = scaledImageLocal(STR_SUBQ_OK);
 		SUBQ_START = scaledImageLocal(STR_SUBQ_START);
 		SUBQ_CONT = scaledImageLocal(STR_SUBQ_CONT);
@@ -3381,7 +3404,9 @@ public class L2RBot {
 		SUBQ_RESET_COUNT50 = scaledImageLocal(STR_SUBQ_RESET_COUNT50);
 		SUBQ_RESET_RESET = scaledImageLocal(STR_SUBQ_RESET_RESET);
 		SUBQ_RESET_CANCEL = scaledImageLocal(STR_SUBQ_RESET_CANCEL);
-
+		SUBQ_DONE = scaledImageLocal(STR_SUBQ_DONE);
+		SUBQ_DONE_OK = scaledImageLocal(STR_SUBQ_DONE_OK);
+		
 		EXIT = scaledImageLocal(STR_EXIT);
 
 		DAILY_ACT = scaledImageLocal(STR_DAILY_ACT);
@@ -5454,8 +5479,26 @@ public class L2RBot {
 					if (running) lfac("SUBQ_AVAIL", SUBQ_AVAIL, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(2000);
 					buyScroll();
+					if (running && bbs.exists(SUBQ_NS.similar(ACCURACY)) != null) {
+						if (running) log(">>No scrolls! Exiting..");
+						if (running) lfac("SUBQ_X2", SUBQ_X2, DEFDELAY, false, ACCURACY);
+						done_sq = true;
+						jobDone();
+						busy = false;
+						break;
+					}
 					if (running) lfac("SUBQ_FF", SUBQ_FF, DEFDELAY, false, ACCURACY);
 					if (running) Sleep(2000);
+					if (running && bbs.exists(SUBQ_DONE.similar(ACCURACY)) != null) {
+						if (running) log(">>Done with Subquests! Exiting..");
+						if (running) lfac("SUBQ_DONE_OK", SUBQ_DONE_OK, DEFDELAY, false, ACCURACY);
+						if (running) Sleep(2000);
+						if (running) lfac("SUBQ_X2", SUBQ_X2, DEFDELAY, false, ACCURACY);
+						done_sq = true;
+						jobDone();
+						busy = false;
+						break;
+					}
 					if (running && bbs.exists(SUBQ_NOTAVAIL.similar(ACC_095)) != null) {
 						if (running) lfac("SUBQ_OK", SUBQ_OK, DEFDELAY, false, ACCURACY);
 						if (running) Sleep(2000);
@@ -7051,6 +7094,10 @@ public class L2RBot {
 				if (running) Sleep(2000);
 			}
 
+			if (running) goClick(BTN_DUNGEON_START_X, BTN_DUNGEON_START_Y); //dungeon start
+			if (running) Sleep(2000);
+
+			
 			boolean dead = false;
 			boolean leftparty = false;
 			int ctrpos=0;
